@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  html {
+    font-size: 18px;
+    /* Solid fallback so overscroll / long pages never show white behind the fixed gradient */
+    background-color: hsl(240 30% 6%);
+  }
+
+  @media (min-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+  }
+
+  :root {
+    /* Self-hosted fonts (@fontsource) — no network needed at build time */
+    --font-inter: 'Inter Variable';
+    --font-space-grotesk: 'Space Grotesk Variable';
+
+    --background: 240 30% 6%;
+    --foreground: 270 20% 92%;
+
+    --card: 260 25% 10%;
+    --card-foreground: 270 20% 92%;
+
+    --popover: 260 25% 10%;
+    --popover-foreground: 270 20% 92%;
+
+    --primary: 280 70% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 260 30% 18%;
+    --secondary-foreground: 270 20% 92%;
+
+    --muted: 260 20% 15%;
+    --muted-foreground: 270 10% 60%;
+
+    --accent: 45 95% 65%;
+    --accent-foreground: 240 30% 6%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 260 20% 18%;
+    --input: 260 20% 18%;
+    --ring: 280 70% 55%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 260 25% 8%;
+    --sidebar-foreground: 270 20% 92%;
+    --sidebar-primary: 280 70% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 260 30% 15%;
+    --sidebar-accent-foreground: 270 20% 92%;
+    --sidebar-border: 260 20% 18%;
+    --sidebar-ring: 280 70% 55%;
+
+    /* Custom tokens */
+    --cosmic-gradient: linear-gradient(135deg, hsl(240 50% 12%), hsl(270 40% 15%), hsl(320 35% 18%));
+    --glass-bg: hsla(260, 25%, 15%, 0.4);
+    --glass-border: hsla(260, 30%, 40%, 0.15);
+    --cta-gradient: linear-gradient(135deg, hsl(280 70% 55%), hsl(330 70% 55%));
+    --cta-gradient-hover: linear-gradient(135deg, hsl(280 70% 60%), hsl(330 70% 60%));
+    --highlight: 45 95% 65%;
+    --pink-cta: 330 70% 55%;
+    --pink-cta-foreground: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: var(--font-inter), 'Inter', sans-serif;
+    background: var(--cosmic-gradient);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 1rem;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, hsl(45 100% 60%), hsl(280 80% 60%), hsl(330 80% 58%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .cosmic-glow {
+    box-shadow: 0 0 40px hsla(280, 70%, 55%, 0.15), 0 0 80px hsla(330, 70%, 55%, 0.08);
+  }
+}
