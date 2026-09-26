@@ -9,6 +9,8 @@ import JsonLd from "@/components/JsonLd";
 import SignCard from "@/components/zodiac/SignCard";
 import { siteConfig, siteLink } from "@/lib/site";
 import { pairPath, pairingsFor } from "@/lib/compatibility";
+import { sunMoonPath, sunMoonsForSun } from "@/lib/sunmoon";
+import { datePath, datesInSign } from "@/lib/birthday";
 import { placementPath, placementsForSign } from "@/lib/placements";
 import {
   dateRange,
@@ -273,6 +275,40 @@ export default async function SignPage({ params }: Props) {
               >
                 <span className="block font-medium">{pl.title}</span>
                 <span className="block text-[11px] text-muted-foreground">{pl.point.domain}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Sun–Moon combinations */}
+      <section className="glass-card p-6 mb-6" aria-labelledby="sunmoon-heading">
+        <h2 id="sunmoon-heading" className="font-display text-xl font-semibold mb-1">{sign.name} Sun with every Moon sign</h2>
+        <p className="text-sm text-muted-foreground mb-4">
+          Your Moon sign changes how a {sign.name} Sun feels and reacts. Pick your Moon sign to see the combination.
+        </p>
+        <ul className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          {sunMoonsForSun(sign.slug).map((c) => (
+            <li key={c.slug}>
+              <Link href={sunMoonPath(c.sun.slug, c.moon.slug)} className="block rounded-lg bg-secondary/30 px-3 py-2 text-sm hover:bg-secondary/60 transition-colors">
+                {sign.name} Sun {c.moon.name} Moon
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* Birthdays in this sign */}
+      <section className="glass-card p-6 mb-6" aria-labelledby="birthdays-heading">
+        <h2 id="birthdays-heading" className="font-display text-xl font-semibold mb-1">{sign.name} birthdays</h2>
+        <p className="text-sm text-muted-foreground mb-4">
+          Every date from {dateRange(sign)} — tap one for its decan, cusp status and birthday meaning.
+        </p>
+        <ul className="flex flex-wrap gap-1.5">
+          {datesInSign(sign.slug).map((d) => (
+            <li key={d.slug}>
+              <Link href={datePath(d.month, d.day)} className="inline-block rounded-md bg-secondary/40 px-2.5 py-1 text-xs hover:bg-secondary/70 transition-colors">
+                {d.label}
               </Link>
             </li>
           ))}
