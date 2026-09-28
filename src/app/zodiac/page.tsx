@@ -7,6 +7,10 @@ import JsonLd from "@/components/JsonLd";
 import SignCard from "@/components/zodiac/SignCard";
 import SignFinder from "@/components/zodiac/SignFinder";
 import { siteLink } from "@/lib/site";
+import LegacySections from "@/components/legacy/LegacySections";
+import { zodiacHubExtras } from "@/lib/zodiac/legacy";
+
+const guide = zodiacHubExtras();
 import { dateRange, elements, modalities, mustGetSign, signPath, signs, type Element, type Modality } from "@/lib/zodiac";
 
 const title = "The 12 Zodiac Signs: Dates, Elements, Traits & Compatibility";
@@ -140,9 +144,15 @@ export default function ZodiacHubPage() {
         </table>
       </section>
 
+      {guide && (
+        <section className="max-w-3xl mx-auto" aria-label="Zodiac signs guide">
+          <LegacySections page={guide} showIntro={false} />
+        </section>
+      )}
+
       <div className="max-w-3xl mx-auto">
         <CtaBanner />
-        <Faq items={faqs} title="Zodiac sign FAQ" />
+        <Faq items={[...faqs, ...(guide?.faqs ?? [])]} title="Zodiac sign FAQ" />
       </div>
     </div>
   );

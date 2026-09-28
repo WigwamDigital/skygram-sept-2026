@@ -6,6 +6,8 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import CtaBanner from "@/components/CtaBanner";
 import AstroNote from "@/components/AstroNote";
 import Faq from "@/components/Faq";
+import LegacySections from "@/components/legacy/LegacySections";
+import { houseExtras } from "@/lib/houses/legacy";
 import JsonLd from "@/components/JsonLd";
 import { siteConfig, siteLink } from "@/lib/site";
 import { glyphText, signPath } from "@/lib/zodiac";
@@ -276,6 +278,7 @@ function HouseHubPage({ house }: { house: House }) {
   const next = (house.number === 12 ? 1 : house.number + 1) as House["number"];
   const prevHouse = getHouseBySlug(houseSlug(prev))!;
   const nextHouse = getHouseBySlug(houseSlug(next))!;
+  const extras = houseExtras(house.number);
 
   const faqs = [
     {
@@ -356,10 +359,12 @@ function HouseHubPage({ house }: { house: House }) {
         </div>
       </section>
 
+      {extras && <LegacySections page={extras} showIntro={false} />}
+
       <AstroNote />
 
       <CtaBanner title={`See what's in your ${house.name}`} body="Your houses depend on your exact birth time and place. Get your free natal chart on Skygram to see which planets sit where." />
-      <Faq items={faqs} title={`${cap} FAQ`} />
+      <Faq items={[...faqs, ...(extras?.faqs ?? [])]} title={`${cap} FAQ`} />
 
       <nav className="grid grid-cols-2 gap-3 mt-8" aria-label="Adjacent houses">
         <Link href={housePath(prevHouse.number)} className="glass-card px-4 py-3 hover:border-primary/40 transition-colors">

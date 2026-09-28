@@ -6,6 +6,10 @@ import Faq from "@/components/Faq";
 import JsonLd from "@/components/JsonLd";
 import { siteLink } from "@/lib/site";
 import { houses, housePath, housePlanets, kindText, planetHousePath } from "@/lib/houses";
+import LegacySections from "@/components/legacy/LegacySections";
+import { housesHubExtras } from "@/lib/houses/legacy";
+
+const guide = housesHubExtras();
 
 const title = "The 12 Astrology Houses: Meanings & Planets in Houses";
 const description =
@@ -107,9 +111,15 @@ export default function HousesHubPage() {
         </table>
       </section>
 
+      {guide && (
+        <section className="max-w-3xl mx-auto" aria-label="Astrology houses guide">
+          <LegacySections page={guide} />
+        </section>
+      )}
+
       <div className="max-w-3xl mx-auto">
         <CtaBanner />
-        <Faq items={faqs} title="Astrology houses FAQ" />
+        <Faq items={[...faqs, ...(guide?.faqs ?? [])]} title="Astrology houses FAQ" />
       </div>
     </div>
   );

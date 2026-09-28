@@ -11,6 +11,8 @@ import ScoreRing from "@/components/compatibility/ScoreRing";
 import { appLink, siteConfig, siteLink } from "@/lib/site";
 import { dateRange, glyphText, signPath, type ZodiacSign } from "@/lib/zodiac";
 import { getPairing, pairFaqs, pairPath, pairTitle, pairings, pairingsFor, traitsOf } from "@/lib/compatibility";
+import { pairGuide } from "@/lib/compatibility/legacy";
+import LegacySections, { Toc } from "@/components/legacy/LegacySections";
 
 type Props = { params: Promise<{ pair: string }> };
 
@@ -99,7 +101,8 @@ export default async function PairPage({ params }: Props) {
   const path = pairPath(a.slug, b.slug);
   const ta = traitsOf(a);
   const tb = traitsOf(b);
-  const faqs = pairFaqs(p);
+  const guide = pairGuide(a.slug, b.slug);
+  const faqs = [...pairFaqs(p), ...(guide?.faqs ?? [])];
   const sameRuler = a.ruler === b.ruler;
 
   const articleLd = {
@@ -245,6 +248,20 @@ export default async function PairPage({ params }: Props) {
       <Section icon={Lightbulb} title="Making it work">
         <p className="text-foreground/80 leading-relaxed">{p.element.tip}</p>
       </Section>
+
+      {guide && guide.sections.length > 0 && (
+        <section aria-labelledby="guide-heading" className="mt-10">
+          <h2 id="guide-heading" className="font-display text-2xl sm:text-3xl font-semibold mb-2">
+            The full {a.name} &amp; {b.name} guide
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Beyond the Sun signs: emotional and physical chemistry, trust, money, synastry aspects, house overlays and the
+            composite chart.
+          </p>
+          <Toc sections={guide.sections} />
+          <LegacySections page={guide} showIntro={false} />
+        </section>
+      )}
 
       <CtaBanner
         title={`Is your ${a.name}–${b.name} bond above average?`}
