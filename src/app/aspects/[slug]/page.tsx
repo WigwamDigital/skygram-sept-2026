@@ -7,7 +7,7 @@ import CtaBanner from "@/components/CtaBanner";
 import Faq from "@/components/Faq";
 import JsonLd from "@/components/JsonLd";
 import LegacySections, { Toc } from "@/components/legacy/LegacySections";
-import { loadLegacy } from "@/lib/legacy";
+import { clipDescription, loadLegacy } from "@/lib/legacy";
 import { siteConfig, siteLink } from "@/lib/site";
 import { planetGlyph, planetPath, tenPlanets } from "@/lib/planets";
 import {
@@ -35,11 +35,6 @@ export function generateStaticParams() {
   return [...aspectTypes.map((t) => ({ slug: t.slug })), ...aspects.map((x) => ({ slug: x.slug }))];
 }
 
-/** Trim to a meta-description length on a word boundary. */
-function clip(s: string, max = 158) {
-  if (s.length <= max) return s;
-  return `${s.slice(0, s.lastIndexOf(" ", max - 1)).replace(/[,;:—–-]$/, "")}…`;
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
@@ -49,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const legacy = loadLegacy("aspects", slug);
   const path = `/aspects/${slug}`;
   const title = legacy?.title ?? (x ? `${x.title} Meaning in Astrology` : `${type!.name} Meaning in Astrology`);
-  const description = clip(
+  const description = clipDescription(
     legacy?.summary ||
       (x
         ? `${x.phrase} (${x.type.angle}°) in astrology: what it means in the natal chart, in synastry and as a transit.`

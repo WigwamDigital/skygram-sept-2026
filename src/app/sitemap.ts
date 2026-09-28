@@ -8,6 +8,8 @@ import { housePath, houseNumbers, planetHousePath, planetInHouses } from "@/lib/
 import { placementPath, placements, pointPath, points } from "@/lib/placements";
 import { aspectTypePath, aspectTypes, aspects, pathOf } from "@/lib/aspects";
 import { planetPath, planets } from "@/lib/planets";
+import { elementSlugs } from "@/lib/elements";
+import { relationshipTypePath, relationshipTypes } from "@/lib/compatibility/types";
 
 // All prerendered routes. Add new SSG collections (e.g. compatibility pairs) here.
 const staticRoutes: { path: string; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number }[] = [
@@ -15,6 +17,7 @@ const staticRoutes: { path: string; changeFrequency: MetadataRoute.Sitemap[numbe
   { path: "/zodiac", changeFrequency: "monthly", priority: 0.9 },
   ...signs.map((s) => ({ path: signPath(s.slug), changeFrequency: "monthly" as const, priority: 0.8 })),
   { path: "/compatibility", changeFrequency: "monthly", priority: 0.9 },
+  ...relationshipTypes.map((t) => ({ path: relationshipTypePath(t.slug), changeFrequency: "monthly" as const, priority: 0.8 })),
   ...pairings.map((p) => ({ path: pairPath(p.a.slug, p.b.slug), changeFrequency: "monthly" as const, priority: 0.7 })),
   { path: "/placements", changeFrequency: "monthly", priority: 0.9 },
   ...points.map((p) => ({ path: pointPath(p.slug), changeFrequency: "monthly" as const, priority: 0.8 })),
@@ -32,6 +35,11 @@ const staticRoutes: { path: string; changeFrequency: MetadataRoute.Sitemap[numbe
   ...aspects.map((x) => ({ path: pathOf(x), changeFrequency: "monthly" as const, priority: 0.6 })),
   { path: "/planets", changeFrequency: "monthly", priority: 0.9 },
   ...planets.map((p) => ({ path: planetPath(p.slug), changeFrequency: "monthly" as const, priority: 0.8 })),
+  { path: "/birth-chart", changeFrequency: "monthly", priority: 0.9 },
+  { path: "/astrology", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/astrology-charts", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/elements", changeFrequency: "monthly", priority: 0.8 },
+  ...elementSlugs.map((slug) => ({ path: `/elements/${slug}`, changeFrequency: "monthly" as const, priority: slug.endsWith("-signs") ? 0.7 : 0.6 })),
   { path: "/methodology", changeFrequency: "monthly", priority: 0.5 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.3 },

@@ -7,7 +7,7 @@ import CtaBanner from "@/components/CtaBanner";
 import Faq from "@/components/Faq";
 import JsonLd from "@/components/JsonLd";
 import LegacySections, { Toc } from "@/components/legacy/LegacySections";
-import { mustLoadLegacy } from "@/lib/legacy";
+import { clipDescription, mustLoadLegacy } from "@/lib/legacy";
 import { siteConfig, siteLink } from "@/lib/site";
 import { getPlanet, planetGlyph, planetPath, planets, type Planet, type PlanetSlug } from "@/lib/planets";
 import { aspectTypes, aspectsFrom, pathOf } from "@/lib/aspects";
@@ -23,10 +23,6 @@ export function generateStaticParams() {
   return planets.map((p) => ({ slug: p.slug }));
 }
 
-function clip(s: string, max = 158) {
-  if (s.length <= max) return s;
-  return `${s.slice(0, s.lastIndexOf(" ", max - 1)).replace(/[,;:—–-]$/, "")}…`;
-}
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const p = getPlanet((await params).slug);
@@ -34,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const legacy = mustLoadLegacy("planets", p.slug);
   const path = planetPath(p.slug);
   const title = legacy.title;
-  const description = clip(legacy.summary || `${p.name} in astrology governs ${p.governs}.`);
+  const description = clipDescription(legacy.summary || `${p.name} in astrology governs ${p.governs}.`);
   return {
     title,
     description,

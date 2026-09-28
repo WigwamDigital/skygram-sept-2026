@@ -6,7 +6,8 @@ const navItems = [
   { href: "/zodiac", label: "Zodiac Signs", external: false },
   { href: "/compatibility", label: "Compatibility", external: false },
   { href: "/placements", label: "Placements", external: false },
-  { href: "/birthday", label: "Birthdays", external: false },
+  { href: "/aspects", label: "Aspects", external: false },
+  { href: "/birth-chart", label: "Birth Chart", external: false },
 ];
 
 export default function SiteHeader() {

@@ -5,3 +5,10 @@
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Old links point at www.skygram.ai — send them to the bare domain.
+[[redirects]]
+  from = "https://www.skygram.ai/*"
+  to = "https://skygram.ai/:splat"
+  status = 301
+  force = true

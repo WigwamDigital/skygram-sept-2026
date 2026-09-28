@@ -59,6 +59,7 @@ export function loadLegacy(section: LegacySectionName, slug: string): LegacyPage
     const raw = JSON.parse(fs.readFileSync(file, "utf8")) as LegacyPage;
     page = {
       ...raw,
+      title: raw.title.replace(/\s*[|–-]\s*Skygram(\.ai)?\s*$/i, ""),
       intro: resolveLinks(raw.intro),
       sections: raw.sections
         .filter((s) => !NAV_HEADING.test(s.heading.trim()))
@@ -89,4 +90,10 @@ function resolveLinks(html: string) {
   return html
     .replace(/href="APP:([^"]*)"/g, (_, p: string) => `href="${appLink(p || "/")}"`)
     .replace(/<a href="(https?:\/\/(?!app\.skygram\.ai)[^"]+)"/g, '<a href="$1" target="_blank" rel="noopener noreferrer"');
+}
+
+/** Trim text to meta-description length on a word boundary. */
+export function clipDescription(s: string, max = 158) {
+  if (s.length <= max) return s;
+  return `${s.slice(0, s.lastIndexOf(" ", max - 1)).replace(/[,;:—–-]$/, "")}…`;
 }
