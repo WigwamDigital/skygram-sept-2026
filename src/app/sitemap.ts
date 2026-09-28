@@ -6,6 +6,8 @@ import { birthdayDates, datePath, monthNumbers, monthPath } from "@/lib/birthday
 import { sunMoonPath, sunMoons } from "@/lib/sunmoon";
 import { housePath, houseNumbers, planetHousePath, planetInHouses } from "@/lib/houses";
 import { placementPath, placements, pointPath, points } from "@/lib/placements";
+import { aspectTypePath, aspectTypes, aspects, pathOf } from "@/lib/aspects";
+import { planetPath, planets } from "@/lib/planets";
 
 // All prerendered routes. Add new SSG collections (e.g. compatibility pairs) here.
 const staticRoutes: { path: string; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number }[] = [
@@ -25,6 +27,11 @@ const staticRoutes: { path: string; changeFrequency: MetadataRoute.Sitemap[numbe
   { path: "/houses", changeFrequency: "monthly", priority: 0.9 },
   ...houseNumbers.map((n) => ({ path: housePath(n), changeFrequency: "monthly" as const, priority: 0.8 })),
   ...planetInHouses.map((p) => ({ path: planetHousePath(p.planet.slug, p.house.number), changeFrequency: "monthly" as const, priority: 0.7 })),
+  { path: "/aspects", changeFrequency: "monthly", priority: 0.9 },
+  ...aspectTypes.map((t) => ({ path: aspectTypePath(t.slug), changeFrequency: "monthly" as const, priority: 0.8 })),
+  ...aspects.map((x) => ({ path: pathOf(x), changeFrequency: "monthly" as const, priority: 0.6 })),
+  { path: "/planets", changeFrequency: "monthly", priority: 0.9 },
+  ...planets.map((p) => ({ path: planetPath(p.slug), changeFrequency: "monthly" as const, priority: 0.8 })),
   { path: "/methodology", changeFrequency: "monthly", priority: 0.5 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
