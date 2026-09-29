@@ -106,6 +106,63 @@
     background-clip: text;
   }
 
+  /* Long-form migrated content (see components/legacy/LegacySections.tsx) */
+  .legacy-prose {
+    @apply text-foreground/80 leading-relaxed space-y-3;
+  }
+  .legacy-prose h3 {
+    @apply font-display text-lg font-semibold text-foreground pt-3;
+  }
+  .legacy-prose h4 {
+    @apply font-display text-base font-semibold text-foreground pt-2;
+  }
+  .legacy-prose strong {
+    @apply text-foreground font-semibold;
+  }
+  .legacy-prose a {
+    @apply text-accent underline-offset-4 hover:underline;
+  }
+  .legacy-prose ul {
+    @apply space-y-1.5 pl-0;
+  }
+  .legacy-prose ul > li {
+    @apply relative pl-5;
+  }
+  .legacy-prose ul > li::before {
+    content: "";
+    @apply absolute left-1 top-[0.7em] h-1.5 w-1.5 rounded-full bg-primary/80;
+  }
+  .legacy-prose ol {
+    @apply list-decimal space-y-1.5 pl-5 marker:text-muted-foreground;
+  }
+  .legacy-prose table {
+    @apply block w-full overflow-x-auto text-sm border-collapse;
+  }
+  .legacy-prose th {
+    @apply text-left text-[11px] uppercase tracking-wider text-muted-foreground font-medium px-3 py-2 border-b border-border/60 whitespace-nowrap;
+  }
+  .legacy-prose td {
+    @apply px-3 py-2 border-b border-border/30 align-top;
+  }
+  .legacy-prose .chips {
+    @apply flex flex-wrap gap-2;
+  }
+  .legacy-prose .chip {
+    @apply inline-block rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs text-foreground/85;
+  }
+  .legacy-prose .chip a {
+    @apply text-foreground/90 no-underline;
+  }
+  .legacy-prose .lc {
+    @apply rounded-xl bg-secondary/30 px-4 py-3;
+  }
+  .legacy-prose .lc p {
+    @apply text-sm mt-1;
+  }
+  .legacy-prose blockquote {
+    @apply border-l-2 border-accent/60 pl-4 italic;
+  }
+
   .cosmic-glow {
     box-shadow: 0 0 40px hsla(280, 70%, 55%, 0.15), 0 0 80px hsla(330, 70%, 55%, 0.08);
   }

@@ -12,6 +12,8 @@ import { pairPath, pairingsFor } from "@/lib/compatibility";
 import { sunMoonPath, sunMoonsForSun } from "@/lib/sunmoon";
 import { datePath, datesInSign } from "@/lib/birthday";
 import { placementPath, placementsForSign } from "@/lib/placements";
+import { signExtras } from "@/lib/zodiac/legacy";
+import LegacySections from "@/components/legacy/LegacySections";
 import {
   dateRange,
   elements,
@@ -69,7 +71,8 @@ export default async function SignPage({ params }: Props) {
   const { prev, next } = neighbours(sign.slug);
   const opposite = mustGetSign(sign.opposite);
   const siblings = elements[sign.element].signs.filter((s) => s !== sign.slug).map(mustGetSign);
-  const faqs = signFaqs(sign);
+  const extras = signExtras(sign.slug);
+  const faqs = [...signFaqs(sign), ...(extras?.page.faqs ?? [])];
   const path = signPath(sign.slug);
 
   const facts: { label: string; value: React.ReactNode }[] = [
@@ -81,6 +84,8 @@ export default async function SignPage({ params }: Props) {
       value: sign.traditionalRuler ? `${sign.ruler} (trad. ${sign.traditionalRuler})` : sign.ruler,
     },
     { label: "Symbol", value: sign.symbol },
+    ...(extras?.tarot ? [{ label: "Tarot card", value: extras.tarot }] : []),
+    ...(extras?.body ? [{ label: "Body", value: extras.body }] : []),
     {
       label: "Opposite sign",
       value: (
@@ -204,6 +209,9 @@ export default async function SignPage({ params }: Props) {
           ))}
         </ul>
       </Section>
+
+      {/* Deeper sections migrated from the old /signs page: energy, love & sex, money, growth, decans */}
+      {extras && extras.page.sections.length > 0 && <LegacySections page={extras.page} showIntro={false} />}
 
       {/* Compatibility */}
       <section className="glass-card p-6 mb-6" aria-labelledby="compat-heading">

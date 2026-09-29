@@ -9,6 +9,17 @@ import { appLink, siteLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { glyphText, signs } from "@/lib/zodiac";
 import { getPairingFor, pairPath, pairings } from "@/lib/compatibility";
+import { relationshipTypePath, relationshipTypes } from "@/lib/compatibility/types";
+import LegacySections from "@/components/legacy/LegacySections";
+import { mustLoadLegacy } from "@/lib/legacy";
+
+// Synastry guide from the old /compatibility hub. The pair finder and "by context" link lists are
+// replaced by the chart and relationship-type cards on this page.
+const guideRaw = mustLoadLegacy("compatibility-types", "_hub");
+const guide = {
+  ...guideRaw,
+  sections: guideRaw.sections.filter((s) => !/^(zodiac sign pair finder|compatibility by context|how skygram)/i.test(s.heading)),
+};
 
 const title = "Zodiac Compatibility Chart: Every Sign Pairing, Scored";
 const description =
@@ -183,6 +194,24 @@ export default function CompatibilityHubPage() {
         </div>
       </section>
 
+      <section className="mb-12" aria-labelledby="types-heading">
+        <h2 id="types-heading" className="font-display text-2xl font-semibold mb-4">Compatibility by relationship</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {relationshipTypes.map((t) => (
+            <Link key={t.slug} href={relationshipTypePath(t.slug)} className="glass-card p-5 hover:-translate-y-0.5 hover:border-primary/40 transition-all">
+              <h3 className="font-display font-semibold mb-1">{t.label} compatibility</h3>
+              <p className="text-sm text-foreground/75">{t.blurb}</p>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="max-w-3xl mx-auto mb-6" aria-labelledby="synastry-heading">
+        <h2 id="synastry-heading" className="font-display text-2xl font-semibold mb-2">How to read compatibility: a synastry guide</h2>
+        {guide.summary && <p className="text-foreground/80 leading-relaxed mb-6">{guide.summary}</p>}
+        <LegacySections page={guide} />
+      </section>
+
       <div className="max-w-3xl mx-auto">
         <CtaBanner
           title="Go beyond Sun signs"
@@ -190,7 +219,7 @@ export default function CompatibilityHubPage() {
           cta="Try the compatibility calculator"
           href={appLink("/compatibility-calculator")}
         />
-        <Faq items={faqs} title="Compatibility FAQ" />
+        <Faq items={[...faqs, ...guide.faqs]} title="Compatibility FAQ" />
       </div>
     </div>
   );
